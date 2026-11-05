@@ -1,257 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Barnavo Dey, product and data builder</title>
-<meta name="description" content="Barnavo Dey builds products end to end and reads the data to make them sharper. Live products, product analytics, and first-author IEEE research.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#0E0D0C; --surface:#171512; --surface2:#201C18; --line:#332D27;
-    --text:#F4EFE6; --muted:#9C948A; --accent:#F6A83A; --accent-dim:#f6a83a1f;
-    --maxw:1120px; --r:16px;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-  body{background:var(--bg);color:var(--text);font-family:"Inter",system-ui,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
-  /* film grain */
-  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-  /* cursor glow */
-  #glow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;
-    background:radial-gradient(circle,rgba(246,168,58,.16),transparent 62%);transform:translate(-50%,-50%);
-    left:50%;top:24%;transition:opacity .4s;opacity:0}
-  @media (hover:hover) and (prefers-reduced-motion:no-preference){#glow{opacity:1}}
-  a{color:inherit}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px;position:relative;z-index:2}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Barnavo Dey, Product Analyst / APM</title>
+  <meta name="description" content="Barnavo Dey, Product Analyst / APM. I ship products, then measure them. A portfolio that boots like an operating system.">
+  <meta name="theme-color" content="#1c2629">
+  <meta name="color-scheme" content="light dark">
 
-  nav{position:sticky;top:0;z-index:30;background:rgba(14,13,12,.7);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
-  .brand{font-family:"Bricolage Grotesque";font-weight:800;font-size:20px;letter-spacing:-.02em}
-  .brand i{color:var(--accent);font-style:normal}
-  .navlinks{display:flex;gap:30px;font-size:15px;color:var(--muted)}
-  .navlinks a{text-decoration:none;transition:color .2s}
-  .navlinks a:hover,.navlinks a:focus-visible{color:var(--text)}
-  @media(max-width:680px){.navlinks{display:none}}
+  <!-- link preview for linkedin, whatsapp, slack, x -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://barnavo05.github.io/">
+  <meta property="og:title" content="Barnavo Dey, Product Analyst / APM">
+  <meta property="og:description" content="Product Analyst / APM. I ship products, then measure them. A portfolio that works like a small desktop, every app included.">
+  <meta property="og:image" content="https://barnavo05.github.io/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
 
-  header.hero{padding:120px 0 30px;position:relative}
-  .kicker{font-family:"Bricolage Grotesque";font-weight:500;font-size:16px;color:var(--muted);margin-bottom:26px}
-  .kicker b{color:var(--text);font-weight:700}
-  .status{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:6px 15px;margin-bottom:30px;background:var(--accent-dim)}
-  .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2.2s infinite}
-  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(246,168,58,.5)}50%{box-shadow:0 0 0 6px rgba(246,168,58,0)}}
-  @media (prefers-reduced-motion:reduce){.dot{animation:none}}
-  h1{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(2.7rem,7.2vw,5.4rem);line-height:.98;letter-spacing:-.035em;max-width:15ch}
-  h1 .hl{color:var(--accent)}
-  .lede{margin-top:30px;font-size:clamp(1.05rem,1.9vw,1.32rem);color:var(--muted);max-width:54ch;line-height:1.55}
-  .cta{display:flex;flex-wrap:wrap;gap:13px;margin-top:40px}
-  .btn{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;text-decoration:none;padding:13px 22px;border-radius:11px;transition:transform .16s,background .2s,border-color .2s,color .2s}
-  .btn-primary{background:var(--accent);color:#231704;font-weight:600}
-  .btn-primary:hover,.btn-primary:focus-visible{transform:translateY(-2px)}
-  .btn-ghost{border:1px solid var(--line);color:var(--text)}
-  .btn-ghost:hover,.btn-ghost:focus-visible{border-color:var(--accent);color:var(--accent)}
-
-  /* marquee */
-  .marquee{margin-top:70px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;overflow:hidden;position:relative;z-index:2;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-  .track{display:flex;gap:0;width:max-content;animation:scroll 34s linear infinite}
-  @media (prefers-reduced-motion:reduce){.track{animation:none}}
-  .track span{font-family:"Bricolage Grotesque";font-weight:600;font-size:19px;color:var(--muted);padding:0 26px;white-space:nowrap}
-  .track span b{color:var(--accent);font-weight:600}
-  @keyframes scroll{to{transform:translateX(-50%)}}
-
-  section{padding:74px 0;position:relative;z-index:2}
-  .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin-bottom:40px;flex-wrap:wrap}
-  h2{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(1.8rem,4vw,2.7rem);letter-spacing:-.028em}
-  .sec-note{color:var(--muted);font-size:15px;max-width:32ch;text-align:right}
-  @media(max-width:680px){.sec-note{text-align:left}}
-
-  .feature{display:grid;gap:22px;margin-bottom:22px}
-  @media(min-width:860px){.feature{grid-template-columns:1fr 1fr}}
-  .card-feat,.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);transition:transform .22s ease,border-color .22s ease,background .22s ease}
-  .card-feat{padding:34px;display:flex;flex-direction:column;background:linear-gradient(160deg,var(--surface2),var(--surface))}
-  .card-feat:hover,.card:hover{transform:translateY(-4px);border-color:#5a4d3c}
-  .badge{align-self:flex-start;font-size:12.5px;font-weight:600;color:var(--accent);background:var(--accent-dim);border:1px solid var(--accent);border-radius:7px;padding:4px 11px;margin-bottom:18px}
-  h3{font-family:"Bricolage Grotesque";font-weight:700;letter-spacing:-.015em}
-  .card-feat h3{font-size:1.7rem;margin-bottom:10px}
-  .card-feat p.desc{color:var(--muted);font-size:16px;margin-bottom:18px}
-  .metric{font-family:"Bricolage Grotesque";font-weight:700;font-size:1.02rem;margin-bottom:20px;line-height:1.45}
-  .metric b{color:var(--accent)}
-  .tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px}
-  .tag{font-size:12.5px;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:3px 10px}
-  .links{margin-top:auto;display:flex;gap:20px;font-size:14.5px;font-weight:600}
-  .links a{color:var(--accent);text-decoration:none;position:relative;padding-bottom:2px}
-  .links a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1.5px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .22s}
-  .links a:hover::after,.links a:focus-visible::after{transform:scaleX(1)}
-  .links a.mut{color:var(--muted)}.links a.mut::after{background:var(--muted)}
-
-  .grid{display:grid;gap:20px}
-  @media(min-width:680px){.grid{grid-template-columns:1fr 1fr}}
-  .card{padding:28px;display:flex;flex-direction:column}
-  .card h3{font-size:1.28rem;margin-bottom:8px}
-  .card p.desc{color:var(--muted);font-size:15px;margin-bottom:16px}
-
-  .how{display:grid;gap:26px}
-  @media(min-width:780px){.how{grid-template-columns:repeat(3,1fr)}}
-  .how-item{border-top:2px solid var(--accent);padding-top:20px}
-  .how-item h4{font-family:"Bricolage Grotesque";font-weight:700;font-size:1.2rem;margin-bottom:9px}
-  .how-item p{color:var(--muted);font-size:15px}
-
-  .creds{display:grid;gap:0;border-top:1px solid var(--line)}
-  .cred{display:grid;grid-template-columns:110px 1fr;gap:20px;padding:20px 4px;border-bottom:1px solid var(--line);align-items:baseline}
-  @media(max-width:600px){.cred{grid-template-columns:1fr;gap:4px}}
-  .cred .k{color:var(--accent);font-family:"Bricolage Grotesque";font-weight:700;font-size:15px}
-  .cred .v{font-size:16px}.cred .v .s{color:var(--muted);font-size:14.5px;display:block;margin-top:3px}
-
-  .contact{text-align:center;padding:100px 0}
-  .contact h2{margin-bottom:18px;font-size:clamp(2rem,5vw,3.2rem)}
-  .contact p{color:var(--muted);max-width:44ch;margin:0 auto 32px}
-  footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:14px;position:relative;z-index:2}
-  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
-  footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text)}
-  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
-
-  @media (prefers-reduced-motion:no-preference){
-    .reveal{opacity:0;transform:translateY(16px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
-    @keyframes rise{to{opacity:1;transform:none}}
-    .d1{animation-delay:.05s}.d2{animation-delay:.16s}.d3{animation-delay:.28s}.d4{animation-delay:.4s}.d5{animation-delay:.52s}
-  }
-</style>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icon-180.png">
+  <link rel="preload" href="assets/fonts/schibsted.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/literata.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div id="glow"></div>
-
-<nav><div class="wrap">
-  <div class="brand">Barnavo<i>.</i></div>
-  <div class="navlinks">
-    <a href="#work">Work</a><a href="#how">How I work</a><a href="#about">Background</a><a href="#contact">Contact</a>
-  </div>
-</div></nav>
-
-<header class="hero"><div class="wrap">
-  <p class="kicker reveal d1"><b>Barnavo Dey.</b> Product and data builder.</p>
-  <span class="status reveal d2"><span class="dot"></span>Open to product analyst and APM roles</span>
-  <h1 class="reveal d3">I build products that ship, then read the data to make them <span class="hl">sharper</span>.</h1>
-  <p class="lede reveal d4">I take things from a rough idea to a working product people can use, and I am just as happy digging through messy data to find the real problem worth solving.</p>
-  <div class="cta reveal d5">
-    <a class="btn btn-primary" href="mailto:barnavodey05@gmail.com">Email me</a>
-    <a class="btn btn-ghost" href="#work">See my work</a>
-    <a class="btn btn-ghost" href="https://www.linkedin.com/in/barnavodey" target="_blank" rel="noopener">LinkedIn</a>
-    <a class="btn btn-ghost" href="https://github.com/barnavo05" target="_blank" rel="noopener">GitHub</a>
-  </div>
-</div></header>
-
-<div class="marquee"><div class="track" id="track">
-  <span>Product Analytics</span><span>&bull;</span><span>SQL</span><span>&bull;</span><span>Next.js</span><span>&bull;</span><span>LLM apps</span><span>&bull;</span><span><b>IEEE published</b></span><span>&bull;</span><span>Python</span><span>&bull;</span><span>Metrics and funnels</span><span>&bull;</span><span>RAG</span><span>&bull;</span><span>Tableau</span><span>&bull;</span><span>PRDs</span><span>&bull;</span>
-</div></div>
-
-<section id="work"><div class="wrap">
-  <div class="sec-head">
-    <h2>Selected work</h2>
-    <p class="sec-note">Things I have built and shipped, not slides about things I might build.</p>
+  <div id="boot" aria-hidden="true">
+    <svg class="boot-logo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9.3 6.8v10M9.3 11.4h2.9a2.7 2.7 0 0 1 0 5.4H9.3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="boot-name">barnavo os</div>
+    <div class="boot-bar"><i></i></div>
   </div>
 
-  <div class="feature">
-    <article class="card-feat">
-      <span class="badge">IEEE published, first author</span>
-      <h3>FasalDrishti</h3>
-      <p class="desc">Point your phone at produce and it grades the quality and shows you why, right in the browser. Built to help small sellers and buyers judge freshness without a lab.</p>
-      <p class="metric"><b>94% accuracy</b>, 93% macro F1, under <b>2 seconds</b> in-browser. Research accepted at IEEE AMLDS 2026, Osaka, and Rank 4 at the AI for Bharat Hackathon.</p>
-      <div class="tags"><span class="tag">CNN</span><span class="tag">DCFNet</span><span class="tag">Grad-CAM</span><span class="tag">Streamlit</span></div>
-      <div class="links">
-        <a href="https://fasaldrishti.streamlit.app/" target="_blank" rel="noopener">Live app</a>
-        <a class="mut" href="https://github.com/barnavo05/fasaldrishti" target="_blank" rel="noopener">Code</a>
-      </div>
-    </article>
+  <div id="wall"></div>
+  <nav id="menubar" aria-label="Menu bar"></nav>
+  <main id="desktop" aria-label="Desktop">
+    <div class="desk-icons"></div>
+    <div id="windows"></div>
+  </main>
+  <nav id="dock" aria-label="Dock"></nav>
+  <div id="home"></div>
 
-    <article class="card-feat">
-      <span class="badge">Building in public</span>
-      <h3>NazarIQ</h3>
-      <p class="desc">A job-search toolkit that scores how likely a listing is to be a ghost job, writes your referral asks for you, and turns your work into a short proof brief. Shipped end to end with sign-in and a live beta.</p>
-      <p class="metric">A full product, <b>not a demo</b>. Auth, real users, and a public build log.</p>
-      <div class="tags"><span class="tag">Next.js 14</span><span class="tag">TypeScript</span><span class="tag">Tailwind</span><span class="tag">Gemini</span><span class="tag">Supabase</span></div>
-      <div class="links">
-        <a href="https://nazar-app-beta.vercel.app/" target="_blank" rel="noopener">Live beta</a>
-        <a class="mut" href="https://github.com/barnavo05/nazar-app" target="_blank" rel="noopener">Code</a>
-      </div>
-    </article>
-  </div>
+  <noscript>
+    <div style="position:fixed;inset:0;overflow:auto;background:#fff;color:#111;padding:32px;font:16px/1.6 system-ui,sans-serif;z-index:99999">
+      <h1>Barnavo Dey</h1>
+      <p>Product Analyst / APM. I ship products, then measure them.</p>
+      <p>This site is a little operating system and needs JavaScript. Meanwhile:</p>
+      <p><a href="mailto:barnavodey05@gmail.com">barnavodey05@gmail.com</a> · <a href="https://www.linkedin.com/in/barnavo-dey">LinkedIn</a> · <a href="https://github.com/barnavo05">GitHub</a> · <a href="assets/resume.pdf">Resume</a></p>
+    </div>
+  </noscript>
 
-  <div class="grid">
-    <article class="card">
-      <h3>KharchaAI and StatementIQ</h3>
-      <p class="desc">Turns messy bank statements into clean spending insights and a simple underwriting view. Built for the high-stakes, ugly-format world of financial documents.</p>
-      <div class="tags"><span class="tag">RAG</span><span class="tag">LLM</span><span class="tag">Python</span></div>
-      <div class="links"><a href="https://kharchaai.streamlit.app/" target="_blank" rel="noopener">Live app</a><a class="mut" href="https://github.com/barnavo05/kharchaAI" target="_blank" rel="noopener">Code</a></div>
-    </article>
-    <article class="card">
-      <h3>Ask Your Hospital</h3>
-      <p class="desc">Ask questions about 100,000+ US hospital records in plain English and get answers, plus a model that flags readmission risk. SQL that feels like a conversation.</p>
-      <div class="tags"><span class="tag">Text-to-SQL</span><span class="tag">Gemini</span><span class="tag">ML</span></div>
-      <div class="links"><a href="https://github.com/barnavo05/ask-your-hospital" target="_blank" rel="noopener">Code</a></div>
-    </article>
-    <article class="card">
-      <h3>Retail Sales Dashboard</h3>
-      <p class="desc">A retail sales dashboard on a clean SQL pipeline over roughly 10,000 rows, so a team can see what is selling and act on it.</p>
-      <div class="tags"><span class="tag">SQL</span><span class="tag">SQLite</span><span class="tag">Tableau</span></div>
-      <div class="links"><a href="https://github.com/barnavo05/retail-sales-dashboard" target="_blank" rel="noopener">Code</a></div>
-    </article>
-    <article class="card">
-      <h3>VyapAI</h3>
-      <p class="desc">Lets a small kirana shop owner bill and track stock by talking to it in Hinglish, no typing needed. Built at a hackathon to fit how Indian shops actually work.</p>
-      <div class="tags"><span class="tag">OCR</span><span class="tag">Voice</span><span class="tag">LLM</span></div>
-      <div class="links"><a class="mut" href="https://github.com/barnavo05" target="_blank" rel="noopener">Code</a></div>
-    </article>
-  </div>
-</div></section>
-
-<section id="how"><div class="wrap">
-  <div class="sec-head"><h2>How I work</h2><p class="sec-note">The same loop, whatever the tool.</p></div>
-  <div class="how">
-    <div class="how-item"><h4>Find the real problem</h4><p>I start in the data and with the user, not the feature request. Most of the work is figuring out what is actually worth building before writing a line of it.</p></div>
-    <div class="how-item"><h4>Frame it clearly</h4><p>I turn a fuzzy ask into a sharp problem statement, a hypothesis, and a way to measure whether it worked. If I cannot measure it, I have not framed it yet.</p></div>
-    <div class="how-item"><h4>Then build</h4><p>I ship the thing, watch how people use it, and change it. I would rather have a rough product in real hands than a perfect plan in a doc.</p></div>
-  </div>
-</div></section>
-
-<section id="about"><div class="wrap">
-  <div class="sec-head"><h2>Background</h2><p class="sec-note">The short version.</p></div>
-  <div class="creds">
-    <div class="cred"><span class="k">Now</span><span class="v">Oracle ERP and data intern, Assurentis Technologies<span class="s">Fusion Financials test scenarios across GL, AP, and Expenses</span></span></div>
-    <div class="cred"><span class="k">Degree</span><span class="v">B.Tech Computer Science, SRM, 2026<span class="s">CGPA 8.59</span></span></div>
-    <div class="cred"><span class="k">Research</span><span class="v">First-author paper, IEEE AMLDS 2026, Osaka<span class="s">Explainable produce grading and shelf-life estimation</span></span></div>
-    <div class="cred"><span class="k">Led</span><span class="v">Committee Head at AARUUSH, SRM's national tech fest<span class="s">Plus the SRM student placement team</span></span></div>
-    <div class="cred"><span class="k">Certs</span><span class="v">AWS ML Foundations, Oracle Cloud Foundations<span class="s">NPTEL Cloud Computing, Scaler DBMS, and more</span></span></div>
-    <div class="cred"><span class="k">Builds</span><span class="v">A regular hackathon builder<span class="s">AI for Bharat 2026 (Rank 4), AstroHack, and more</span></span></div>
-  </div>
-</div></section>
-
-<section class="contact" id="contact"><div class="wrap">
-  <h2>Let's talk</h2>
-  <p>If you want someone who can dig into the numbers, frame the real problem, and then build the thing, I would love to hear from you.</p>
-  <a class="btn btn-primary" href="mailto:barnavodey05@gmail.com">barnavodey05@gmail.com</a>
-</div></section>
-
-<footer><div class="wrap">
-  <span>Barnavo Dey, 2026</span>
-  <span>
-    <a href="https://www.linkedin.com/in/barnavodey" target="_blank" rel="noopener">LinkedIn</a> &nbsp;&bull;&nbsp;
-    <a href="https://github.com/barnavo05" target="_blank" rel="noopener">GitHub</a> &nbsp;&bull;&nbsp;
-    <a href="mailto:barnavodey05@gmail.com">Email</a>
-  </span>
-</div></footer>
-
-<script>
-  // duplicate marquee for seamless loop
-  var tr=document.getElementById('track'); if(tr){tr.innerHTML+=tr.innerHTML;}
-  // cursor glow
-  var g=document.getElementById('glow');
-  if(g && window.matchMedia('(hover:hover)').matches){
-    window.addEventListener('mousemove',function(e){g.style.left=e.clientX+'px';g.style.top=e.clientY+'px';},{passive:true});
-  }
-</script>
+  <script src="js/content.js"></script>
+  <script src="js/os.js"></script>
 </body>
 </html>
